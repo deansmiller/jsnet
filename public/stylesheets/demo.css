@@ -1,0 +1,21 @@
+#demo {
+    border: 1px solid black;
+}
+
+#panelpad-container {
+    position: relative;
+    margin-left: 250px;
+}
+
+#inputpad-container {
+	padding-bottom: 20px;
+}
+
+#result{
+	position: absolute;
+	left: 306px;
+	top: 31px;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+	font-style: italic;
+	font-size: 50px;
+}
