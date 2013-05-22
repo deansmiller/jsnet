@@ -61,16 +61,24 @@ Labs.ready(function(){
     worker = new Worker("/js/nn_work.js");
     worker.addEventListener("message", function(e){
         console.log("Worker: ", e.data);
+        if(e.data.cmd == "chart"){
+            var paper = new Raphael(document.getElementById("chart-container"));
+            paper.linechart(0, 0, 500, 300, e.data.x, e.data.y, {
+                axis: "0 0 1 1"
+            });           
+        }
     }, false);
 
     worker.postMessage({"cmd":"createNetwork", "config":{
         neurons: [4, 4],
         inputs: 100,
-        error: 0.001,
+        error: 2,
         learningRate: 0.01,
         patterns: patterns,
-        logErrorPerIteration: 500                    
+        logErrorPerIteration: 100                
     }});
+
+
 
     Labs.on("click", "recog", function(){
         var data = pp.processInput();

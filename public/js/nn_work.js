@@ -51,6 +51,7 @@ var NN_WORK = (function(){
         train: function(){
             self.postMessage("Commencing network training..");
             var currentError = 0, i = 0, output, pattern;
+            var iterations = [], errors = [];
 
             do {
                 for(pattern in this.patterns){
@@ -58,15 +59,18 @@ var NN_WORK = (function(){
                     this.calculateWeightChanges(this.patterns[pattern].input, this.patterns[pattern].output);
                     currentError = this.calculateMSE(this.patterns[pattern].output, this.output);
                     this.mse = currentError;
-                    i++;
+                    
                 }
-                
+                i++;
                 if(i % this.logErrorPerIteration == 0){
+                    iterations.push(i);
+                    errors.push(currentError);
                     self.postMessage(i + ": " + currentError);
                 }
             } while (currentError > this.error);
 
             self.postMessage("Training completed with error at: " + " " + currentError + " after iterations:" + i);
+            self.postMessage({cmd: "chart", x: iterations, "y": errors})
         },
 
         calculateMSE: function(_outputData, networkOutput){
