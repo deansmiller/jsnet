@@ -43,6 +43,7 @@ var NN_WORK = (function(){
                 inputs: config.inputs
             }));
         }
+        this.logErrorPerIteration = config.logErrorPerIteration
     }
 
     Network.prototype = {
@@ -60,7 +61,7 @@ var NN_WORK = (function(){
                     i++;
                 }
                 
-                if(i % 2000 == 0){
+                if(i % this.logErrorPerIteration == 0){
                     self.postMessage(i + ": " + currentError);
                 }
             } while (currentError > this.error);

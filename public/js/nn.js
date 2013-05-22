@@ -68,7 +68,8 @@ Labs.ready(function(){
         inputs: 100,
         error: 0.001,
         learningRate: 0.01,
-        patterns: patterns                    
+        patterns: patterns,
+        logErrorPerIteration: 500                    
     }});
 
     Labs.on("click", "recog", function(){
