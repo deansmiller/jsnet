@@ -9,7 +9,7 @@ block content
                 a.brand(href="#") JavaScript Neural Network Toy
                 ul.nav
                     li.active
-                        a(href="#") How Do I Use This?
+                        a(data-toggle="modal", data-target="#helpModal") How Do I Use This?
         .row
 
             .span3
@@ -53,6 +53,14 @@ block content
                 h5 Error Log
                 .log-container
                     textarea#log
+
+    .modal.hide.fade#helpModal
+        .modal-header
+            h3 How to use this thing...
+        .modal-body
+            <p>Press train button to train the network. You should see the error being logged and decreasing in the Log textarea. When training has finished a chart should be displayed in the chart area.</p>
+        .modal-footer
+            button.btn.btn-danger(data-dismiss="helpModal") Close
 
 
 
