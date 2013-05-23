@@ -1,21 +1,74 @@
 #demo {
-    border: 1px solid black;
+    /*border: 1px solid rgb(177, 173, 173);*/
+    background-color: #62c462
+}
+
+.nn-nav a.brand {
+	margin-left: 5px;
+}
+
+.nn .container {
+	width: 1200px;
+}
+
+.row {
+	margin-top: 45px;
+}
+
+.pad-container {
+	margin-bottom: 18px;
 }
 
 #panelpad-container {
     position: relative;
-    margin-left: 250px;
+    margin-left: 280px;
 }
 
 #inputpad-container {
 	padding-bottom: 20px;
+	margin-left: 20px;
 }
 
-#result{
-	position: absolute;
-	left: 306px;
-	top: 31px;
-	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-	font-style: italic;
-	font-size: 50px;
+.chart-container {
+	border: 1px solid rgb(177, 173, 173);
+	width: 500px;
+	height: 300px;
+	border-radius: 5px;
+}
+
+
+.controls {
+	margin-bottom: 30px;
+}
+
+.btn {
+	margin-right: 8px;
+}
+
+canvas {
+	border-radius: 5px;
+}
+
+.log-container {
+	width: 300px;
+	height: 292px;	
+}
+
+.log-container textarea {
+	width: 100%;
+	height: 100%;
+}
+
+.config-container {
+	border: 1px solid rgb(177, 173, 173);
+	width: 200px;
+	height: 200px;
+}
+
+.guess-container {
+	border: 1px solid rgb(177, 173, 173);
+	width: 200px;
+	height: 200px;
+	border-radius: 5px;
+	margin-bottom: 60px;
 }

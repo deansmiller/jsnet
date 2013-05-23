@@ -4,13 +4,42 @@ block content
 
     .container
 
-        .pad-container
-            #panelpad-container
-            #inputpad-container
-            #chart-container
+        .navbar.navbar-fixed-top.navbar-inverse
+            .navbar-inner.nn-nav
+                a.brand(href="#") JavaScript Neural Network
+                ul.nav
+                    li
+                        a(href="#") Help
+        .row
 
-        #controls
-            button.btn#recog Recog
-            button.btn#clear Clear
-            button.btn#train Train
-            button.btn#stop Stop Training
+            .span3
+                h5 Config
+                .config-container
+
+
+            .span7
+                .controls
+                    button.btn.btn-success#recog Recog
+                    button.btn.btn-warning#clear Clear Panels
+                    button.btn#clear Reset Network
+                    button.btn.btn-primary#train Train
+                    button.btn.btn-danger#stop Stop Training
+
+                .pad-container
+                    #panelpad-container
+                    #inputpad-container
+                
+                h5 Chart (displayed on completion of training)
+                .chart-container
+
+            .span2
+                h5 Guess: 
+                br
+                h5 Error Log
+                .log-container
+                    textarea#log
+
+
+
+        
+

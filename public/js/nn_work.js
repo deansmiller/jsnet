@@ -43,7 +43,8 @@ var NN_WORK = (function(){
                 inputs: config.inputs
             }));
         }
-        this.logErrorPerIteration = config.logErrorPerIteration
+        this.logErrorPerIteration = config.logErrorPerIteration;
+        this.chartErrorPerIteration = config.chartErrorPerIteration;
     }
 
     Network.prototype = {
@@ -59,18 +60,22 @@ var NN_WORK = (function(){
                     this.calculateWeightChanges(this.patterns[pattern].input, this.patterns[pattern].output);
                     currentError = this.calculateMSE(this.patterns[pattern].output, this.output);
                     this.mse = currentError;
-                    
                 }
+                
                 i++;
-                if(i % this.logErrorPerIteration == 0){
+
+                if((i % this.logErrorPerIteration) == 0){
+                    self.postMessage({ cmd: "log", iteration: i, error: currentError });
+                }
+
+                if((i % this.chartErrorPerIteration) == 0){
                     iterations.push(i);
                     errors.push(currentError);
-                    self.postMessage(i + ": " + currentError);
                 }
             } while (currentError > this.error);
 
-            self.postMessage("Training completed with error at: " + " " + currentError + " after iterations:" + i);
-            self.postMessage({cmd: "chart", x: iterations, "y": errors})
+            self.postMessage("Training completed with error at: " + " " + currentError + " after iterations: " + i);
+            self.postMessage({ cmd: "chart", x: iterations, y: errors });
         },
 
         calculateMSE: function(_outputData, networkOutput){

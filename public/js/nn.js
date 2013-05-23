@@ -43,7 +43,8 @@ Labs.ready(function(){
     var pp = new NN_UI.PanelPad({
         panelSize: 20, // each panel size in pixels 
         panels: 10, // panel per row
-        container: Labs.get("panelpad-container")
+        container: Labs.get("panelpad-container"),
+        panelColour: "rgb(177, 173, 173)" //should really be set using CSS!!
     }).render();
 
 
@@ -56,26 +57,40 @@ Labs.ready(function(){
         panelPadContainer: Labs.get("panelpad-container")
     }).render();
 
-    var interval;
 
     worker = new Worker("/js/nn_work.js");
+
     worker.addEventListener("message", function(e){
-        console.log("Worker: ", e.data);
-        if(e.data.cmd == "chart"){
-            var paper = new Raphael(document.getElementById("chart-container"));
-            paper.linechart(0, 0, 500, 300, e.data.x, e.data.y, {
-                axis: "0 0 1 1"
+
+        var data = e.data;
+        console.log("Worker: ", data);
+        if(data.cmd == "chart" && data.x.length > 0){
+
+            var paper = new Raphael(Labs.get("chart-container"));
+
+            paper.linechart(0, 0, 500, 300, data.x, data.y, {
+                axis: "0 0 1 1",
+                smooth: true,
+                gutter: 20
             });           
+        } 
+
+        if(data.cmd == "log"){
+            var text = Labs.get("log").value;
+            Labs.get("log").value = text + data.iteration + ": " + data.error + "\n";
         }
+
     }, false);
+
 
     worker.postMessage({"cmd":"createNetwork", "config":{
         neurons: [4, 4],
         inputs: 100,
-        error: 2,
-        learningRate: 0.01,
+        error: 0.001,
+        learningRate: 0.05,
         patterns: patterns,
-        logErrorPerIteration: 100                
+        logErrorPerIteration: 10000,
+        chartErrorPerIteration: 5000          
     }});
 
 

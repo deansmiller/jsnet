@@ -6,7 +6,7 @@ var NN_UI = (function(){
         this.value = 0;
         this.size = config.size;
         this.canvas = Labs.createElement("canvas", "panel" + config.id, "panels");
-        this.canvas.style.border = "1px solid black";
+        this.canvas.style.border = "1px solid " + config.panelColour;
         this.canvas.setAttribute("width", config.size);
         this.canvas.setAttribute("height", config.size);
         this.canvas.style.position = "absolute";
@@ -36,7 +36,8 @@ var NN_UI = (function(){
             for(var j = 0; j < config.panels; j++){
                 panel = new Panel({
                     size: config.panelSize,
-                    id: j + "" + i
+                    id: j + "" + i,
+                    panelColour: config.panelColour || "black"
                 });
                 row.push(panel);
             }
