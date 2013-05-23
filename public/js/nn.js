@@ -107,20 +107,20 @@ Labs.ready(function(){
 
 
     var createNetwork = function(){
-        worker.postMessage({"cmd":"createNetwork", "config":{
-            neurons: [4, 4],
-            inputs: 100,
-            error: parseFloat(Labs.get("error").value),
-            learningRate: parseFloat(Labs.get("rate").value),
-            patterns: patterns,
-            logErrorPerIteration: parseInt(Labs.get("logError").value),
-            chartErrorPerIteration: parseInt(Labs.get("chartError").value)          
-        }});
+        //users cannot config these parameters
+        var config = {};
+        config.inputs = 100;
+        config.patterns = patterns;
+        config.neurons = [4, 4];
+        //only these ones
+        config.error = parseFloat(Labs.get("error").value);
+        config.learningRate = parseFloat(Labs.get("rate").value);
+        config.logErrorPerIteration = parseInt(Labs.get("logError").value);
+        config.chartErrorPerIteration = parseInt(Labs.get("chartError").value); 
+        worker.postMessage({"cmd":"createNetwork", config: config});
     };
 
     createNetwork();
-
-
 
     Labs.on("click", "recog", function(){
         var data = pp.processInput();
@@ -141,11 +141,11 @@ Labs.ready(function(){
         ip.clearPanel();
     });
 
-
     Labs.on("click", "reset", function(){
         createNetwork();
         Labs.get("log").value = "";
         Labs.get("guess").innerText = "";
+        Labs.get("chart-container").innerHTML = "";
     });
 
 });
