@@ -6,7 +6,7 @@ block content
 
         .navbar.navbar-fixed-top.navbar-inverse
             .navbar-inner.nn-nav
-                a.brand(href="#") JavaScript Neural Network
+                a.brand(href="#") JavaScript Neural Network Toy
                 ul.nav
                     li
                         a(href="#") Help
@@ -35,7 +35,7 @@ block content
                 .controls
                     button.btn.btn-success#recog Recog
                     button.btn.btn-warning#clear Clear Panels
-                    button.btn#clear Reset Network
+                    button.btn#reset Reset Network
                     button.btn.btn-primary#train Train
                     button.btn.btn-danger#stop Stop Training
 
@@ -44,11 +44,12 @@ block content
                     #inputpad-container
                 
                 h5 Chart (displayed on completion of training)
-                .chart-container
+                #chart-container
 
             .span2
-                h5 Guess: 
-                hr
+                h4 Guess: 
+                    span#guess
+                br
                 h5 Error Log
                 .log-container
                     textarea#log

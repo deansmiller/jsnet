@@ -14,6 +14,7 @@ Labs = {
     },
 
     on: function(_event, element, fn){
+        if(element == null) throw new Error("No element found with id " + element)
         if(typeof(element) === "string"){
             element = Labs.get(element);
         }

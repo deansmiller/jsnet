@@ -67,9 +67,8 @@ Labs.ready(function(){
     worker = new Worker("/js/nn_work.js");
 
     worker.addEventListener("message", function(e){
-
         var data = e.data;
-        console.log("Worker: ", data);
+        //console.log("Worker: ", data);
         if(data.cmd == "chart" && data.x.length > 0){
 
             var paper = new Raphael(Labs.get("chart-container"));
@@ -86,40 +85,46 @@ Labs.ready(function(){
             Labs.get("log").value = text + data.iteration + ": " + data.error + "\n";
         }
 
+        if(data.cmd == "output"){
+            var output = data.output;
+            console.log(output);
+            var temp = output[0], max = 0;
+            for(var i = 0; i < output.length; i++){
+                temp = Math.max(output[i], output[i+1]);
+                if(temp > max) max = temp;
+            }
+            var result;
+            for(var i = 0; i < output.length; i++){
+                if(output[i] == max){
+                    result = i + 1;
+                    break;                
+                }
+            }
+            Labs.get("guess").innerText = result;
+        }
+
     }, false);
 
 
-    worker.postMessage({"cmd":"createNetwork", "config":{
-        neurons: [4, 4],
-        inputs: 100,
-        error: parseFloat(Labs.get("error").value),
-        learningRate: parseFloat(Labs.get("rate").value),
-        patterns: patterns,
-        logErrorPerIteration: parseInt(Labs.get("logError").value),
-        chartErrorPerIteration: parseInt(Labs.get("chartError").value)          
-    }});
+    var createNetwork = function(){
+        worker.postMessage({"cmd":"createNetwork", "config":{
+            neurons: [4, 4],
+            inputs: 100,
+            error: parseFloat(Labs.get("error").value),
+            learningRate: parseFloat(Labs.get("rate").value),
+            patterns: patterns,
+            logErrorPerIteration: parseInt(Labs.get("logError").value),
+            chartErrorPerIteration: parseInt(Labs.get("chartError").value)          
+        }});
+    };
+
+    createNetwork();
 
 
 
     Labs.on("click", "recog", function(){
         var data = pp.processInput();
         worker.postMessage({"cmd":"recog", "input": data});
-        //var output = nn.output;
-        // var temp = output[0], max = 0;
-        // for(var i = 0; i < output.length; i++){
-        //     temp = Math.max(output[i], output[i+1]);
-        //     if(temp > max) max = temp;
-        // }
-        // var result;
-        // for(var i = 0; i < output.length; i++){
-        //     if(output[i] == max){
-        //         console.log(i);
-        //         result = i + 1;
-        //         break;                
-        //     }
-        // }
-        // console.log(output);
-        // Labs.get("result").innerText = result;
     });
 
     Labs.on("click", "train", function(){
@@ -134,13 +139,13 @@ Labs.ready(function(){
     Labs.on("click", "clear", function(){
         pp.clearPanel();
         ip.clearPanel();
-        //Labs.get("result").innerText = "";
     });
 
 
-    Labs.on("click", "data", function(){
-        pp.processInput();
-        console.log(pp.outputStr);
+    Labs.on("click", "reset", function(){
+        createNetwork();
+        Labs.get("log").value = "";
+        Labs.get("guess").innerText = "";
     });
 
 });

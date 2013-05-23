@@ -138,9 +138,6 @@ self.addEventListener("message", function(e) {
         case "createNetwork":
             createNetwork(data.config);
             break;
-        case "getMSE":
-            getMSE();
-            break;
         case "trainNetwork":
             trainNetwork();
             break;
@@ -161,11 +158,8 @@ function trainNetwork(){
     nn.train();
 }
 
-function getMSE(){
-    self.postMessage({"mse": nn.mse});
-}
 
 function recog(input){
     nn.applyInput(input);
-    self.postMessage({"output:": nn.output})
+    self.postMessage({ cmd: "output", output: nn.output})
 }
