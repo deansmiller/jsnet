@@ -14,7 +14,21 @@ block content
 
             .span3
                 h5 Config
+                hr
                 .config-container
+                    p Error:
+                        input(type="text", id="error")
+                    br
+                    p Learning Rate:
+                        input(type="text", id="rate")
+                    br
+                    p Per Iteration:-
+                    p Log Error:
+                        input(type="text", id="logError")
+                    br
+                    p Chart Error:
+                        input(type="text", id="chartError")
+                       
 
 
             .span7
@@ -34,7 +48,7 @@ block content
 
             .span2
                 h5 Guess: 
-                br
+                hr
                 h5 Error Log
                 .log-container
                     textarea#log

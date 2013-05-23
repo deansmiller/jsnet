@@ -1,5 +1,11 @@
 Labs.ready(function(){
 
+    //defaults
+    Labs.get("error").value = 0.001;
+    Labs.get("rate").value = 0.05;
+    Labs.get("logError").value = 10000;
+    Labs.get("chartError").value = 5000;
+
     var patterns = {
         1: {
             input:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -86,11 +92,11 @@ Labs.ready(function(){
     worker.postMessage({"cmd":"createNetwork", "config":{
         neurons: [4, 4],
         inputs: 100,
-        error: 0.001,
-        learningRate: 0.05,
+        error: parseFloat(Labs.get("error").value),
+        learningRate: parseFloat(Labs.get("rate").value),
         patterns: patterns,
-        logErrorPerIteration: 10000,
-        chartErrorPerIteration: 5000          
+        logErrorPerIteration: parseInt(Labs.get("logError").value),
+        chartErrorPerIteration: parseInt(Labs.get("chartError").value)          
     }});
 
 

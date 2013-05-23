@@ -1,5 +1,5 @@
 #demo {
-    /*border: 1px solid rgb(177, 173, 173);*/
+    border: 1px solid black;
     background-color: #62c462
 }
 
@@ -60,9 +60,15 @@ canvas {
 }
 
 .config-container {
-	border: 1px solid rgb(177, 173, 173);
+/*	border: 1px solid rgb(177, 173, 173);*/
 	width: 200px;
 	height: 200px;
+}
+
+.config-container input {
+	width: 60px;
+	margin-left: 10px;
+	float: right;
 }
 
 .guess-container {
