@@ -7,5 +7,3 @@
 <p>This provided an ample opportunity to play with Web Workers because the training of the network can be intensive on the browsers resources. Using a Web Worker I was able to keep the UI responsive. I also used g.raphael for the chart (https://github.com/DmitryBaranovskiy/g.raphael)</p>
 
 <p>Give it a try @ jsnet.nodejitsu.com</p>
-
-<p>Note: Does not work in FF at the moment. In no way is this a completed, tried and tested app</p>
