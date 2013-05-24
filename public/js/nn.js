@@ -1,6 +1,6 @@
-Labs.ready(function(){
+jQuery(document).ready(function(){
 
-    //defaults
+    //default parameters
     jQuery("#error").val(0.001);
     jQuery("#rate").val(0.05);
     jQuery("#logError").val(5000);
@@ -63,7 +63,7 @@ Labs.ready(function(){
     }).render();
 
 
-    worker = new Worker("/js/nn_work.js");
+    var worker = new Worker("/js/nn_work.js");
 
     worker.addEventListener("message", function(e){
         var data = e.data;
@@ -125,7 +125,7 @@ Labs.ready(function(){
 
     jQuery("#recog").click(function(){
         var data = pp.processInput();
-        console.log(data);
+        //console.log(data);
         worker.postMessage({"cmd":"recog", "input": data});
     });
 
@@ -150,6 +150,9 @@ Labs.ready(function(){
         jQuery("#chart-container").html("");
         jQuery("#status").hide();
     });
+
+    //Because people do not read instructions.. Do they Mr Hollist?
+    jQuery("#helpModal").modal("show");
 
 
 });
