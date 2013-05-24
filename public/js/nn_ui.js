@@ -1,4 +1,4 @@
-var NN_UI = (function(){
+var NN_UI = (function($){
 
     panelTransfer = false;
 
@@ -6,7 +6,7 @@ var NN_UI = (function(){
         this.value = 0;
         this.size = config.size;
         var canvas = document.createElement("canvas");
-        canvas = jQuery(canvas);
+        canvas = $(canvas);
         canvas.attr("id", "panel" + config.id);
         canvas.addClass("panels");
         canvas.css({
@@ -25,11 +25,11 @@ var NN_UI = (function(){
         this.canvas.on("click", function(){
             if(this.value == 1){
                 this.value = 0;
-                jQuery(this).css("background", "white");
+                $(this).css("background", "white");
             }
             else {
                 this.value = 1;
-                jQuery(this).css("background", "black");
+                $(this).css("background", "black");
             }   
         }); 
     };
@@ -50,7 +50,7 @@ var NN_UI = (function(){
             this.pads.push(row);
             row = [];
         }
-        this.container = jQuery("#" + config.container);
+        this.container = $("#" + config.container);
         this.attachEventHandlers();
     }
 
@@ -65,7 +65,7 @@ var NN_UI = (function(){
 
             container.on("mousemove", function(e){
                 if(draw || NN_UI.panelTransfer){
-                    var target = jQuery(e.target);
+                    var target = $(e.target);
                     target.css("background", "black");
                     id = target.attr("id");
                     panel = self.getPanel(id);
@@ -143,12 +143,12 @@ var NN_UI = (function(){
         canvas.setAttribute("width", config.width);
         canvas.setAttribute("height", config.height);
         this.context = canvas.getContext("2d");
-        canvas = jQuery(canvas);
+        canvas = $(canvas);
         canvas.addClass("inputpanel");
         canvas.attr("id", config.id);
         this.width = config.width;
         this.height = config.height;
-        this.container = jQuery("#" + config.container);
+        this.container = $("#" + config.container);
         this.canvas = canvas;
         this.penSize = config.penSize || 20;
         this.panelPadContainer = config.panelPadContainer || null;
@@ -173,8 +173,8 @@ var NN_UI = (function(){
 
             canvas.on("mousedown", function(e){
                 draw = true;
-                x = e.offsetX;
-                y = e.offsetY;
+                x = (e.offsetX || e.clientX - $(e.target).offset().left);
+                y = (e.offsetY || e.clientY - $(e.target).offset().top);
             });
 
             canvas.on("mousemove", function(e){
@@ -183,8 +183,8 @@ var NN_UI = (function(){
                     con.arc(x, y, 10, 0, Math.PI * 2, false); //??
                     con.closePath();
                     con.fill();
-                    x = e.offsetX;
-                    y = e.offsetY;
+                    x = (e.offsetX || e.clientX - $(e.target).offset().left);
+                    y = (e.offsetY || e.clientY - $(e.target).offset().top);
                     if(self.panelPadContainer){
                         _x = Math.floor(x / self.penSize);
                         _y = Math.floor(y / self.penSize);
@@ -239,4 +239,4 @@ var NN_UI = (function(){
         PanelPad: PanelPad,
         InputPad: InputPad
     }
-})();
+})(jQuery);
