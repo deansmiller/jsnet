@@ -1,10 +1,10 @@
 Labs.ready(function(){
 
     //defaults
-    Labs.get("error").value = 0.001;
-    Labs.get("rate").value = 0.05;
-    Labs.get("logError").value = 10000;
-    Labs.get("chartError").value = 5000;
+    jQuery("#error").val(0.001);
+    jQuery("#rate").val(0.05);
+    jQuery("#logError").val(5000);
+    jQuery("#chartError").val(5000);
 
     var patterns = {
         1: {
@@ -78,8 +78,8 @@ Labs.ready(function(){
         } 
 
         if(data.cmd == "log"){
-            var text = Labs.get("log").value;
-            Labs.get("log").value = text + data.iteration + ": " + data.error + "\n";
+            var text = jQuery("#log").val();
+            jQuery("#log").val(text + data.iteration + ": " + data.error + "\n");
         }
 
         if(data.cmd == "output"){
@@ -97,7 +97,7 @@ Labs.ready(function(){
                     break;                
                 }
             }
-            Labs.get("guess").innerText = result;
+            jQuery("#guess").text(result);
         }
 
         if(data.cmd == "training-completed"){
@@ -114,40 +114,39 @@ Labs.ready(function(){
         config.patterns = patterns;
         config.neurons = [4, 4];
         //only these ones
-        config.error = parseFloat(Labs.get("error").value);
-        config.learningRate = parseFloat(Labs.get("rate").value);
-        config.logErrorPerIteration = parseInt(Labs.get("logError").value);
-        config.chartErrorPerIteration = parseInt(Labs.get("chartError").value); 
+        config.error = parseFloat(jQuery("#error").val());
+        config.learningRate = parseFloat(jQuery("#rate").val());
+        config.logErrorPerIteration = parseInt(jQuery("#logError").val());
+        config.chartErrorPerIteration = parseInt(jQuery("#chartError").val()); 
         worker.postMessage({"cmd":"createNetwork", config: config});
     };
 
     createNetwork();
 
-    Labs.on("click", "recog", function(){
+    jQuery("#recog").click(function(){
         var data = pp.processInput();
         worker.postMessage({"cmd":"recog", "input": data});
     });
 
-    Labs.on("click", "train", function(){
+    jQuery("#train").click(function(){
         worker.postMessage({"cmd": "trainNetwork"});
     });
 
-    Labs.on("click", "stop", function(){
+    jQuery("#stop").click(function(){
         worker.terminate();
-        jQuery("#status").show();
+        jQuery("#status").hide();
     });
 
-
-    Labs.on("click", "clear", function(){
+    jQuery("#clear").click(function(){
         pp.clearPanel();
         ip.clearPanel();
     });
 
-    Labs.on("click", "reset", function(){
+    jQuery("#reset").click(function(){
         createNetwork();
-        Labs.get("log").value = "";
-        Labs.get("guess").innerText = "";
-        Labs.get("chart-container").innerHTML = "";
+        jQuery("#log").val("");
+        jQuery("#guess").text("");
+        jQuery("#chart-container").html("");
         jQuery("#status").hide();
     });
 
