@@ -159,7 +159,6 @@ function trainNetwork(){
     nn.train();
 }
 
-
 function recog(input){
     nn.applyInput(input);
     self.postMessage({ cmd: "output", output: nn.output})

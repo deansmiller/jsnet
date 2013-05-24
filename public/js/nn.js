@@ -125,6 +125,7 @@ Labs.ready(function(){
 
     jQuery("#recog").click(function(){
         var data = pp.processInput();
+        console.log(data);
         worker.postMessage({"cmd":"recog", "input": data});
     });
 
