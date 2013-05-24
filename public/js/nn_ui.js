@@ -5,25 +5,31 @@ var NN_UI = (function(){
     function Panel(config) {
         this.value = 0;
         this.size = config.size;
-        this.canvas = Labs.createElement("canvas", "panel" + config.id, "panels");
-        this.canvas.style.border = "1px solid " + config.panelColour;
-        this.canvas.setAttribute("width", config.size);
-        this.canvas.setAttribute("height", config.size);
-        this.canvas.style.position = "absolute";
+        var canvas = document.createElement("canvas");
+        canvas = jQuery(canvas);
+        canvas.attr("id", "panel" + config.id);
+        canvas.addClass("panels");
+        canvas.css({
+            "border": "1px solid " + config.panelColour,
+            "width": config.size,
+            "height": config.size,
+            "position": "absolute"
+        });
+        this.canvas = canvas;
         this.id = "panel" + config.id;
         this.attachEventHandlers();
         return this;
     }
 
     Panel.prototype.attachEventHandlers = function(){
-        Labs.on("click", this.canvas, function(){
+        this.canvas.on("click", function(){
             if(this.value == 1){
                 this.value = 0;
-                this.canvas.style.background = "white";
+                jQuery(this).css("background", "white");
             }
             else {
                 this.value = 1;
-                this.canvas.style.background = "black";
+                jQuery(this).css("background", "black");
             }   
         }); 
     };
@@ -44,28 +50,34 @@ var NN_UI = (function(){
             this.pads.push(row);
             row = [];
         }
-        this.container = config.container;
+        this.container = jQuery("#" + config.container);
         this.attachEventHandlers();
     }
 
     PanelPad.prototype = {
 
         attachEventHandlers: function(){
-            var draw = false, fromInputPanel = false, id, self = this, panel;
-            Labs.on("mousemove", this.container, function(e){
+            var draw = false, 
+                id, 
+                panel,
+                container = this.container
+                self = this;
+
+            container.on("mousemove", function(e){
                 if(draw || NN_UI.panelTransfer){
-                    e.target.style.background = "black";
-                    id = e.target.getAttribute("id");
+                    var target = jQuery(e.target);
+                    target.css("background", "black");
+                    id = target.attr("id");
                     panel = self.getPanel(id);
                     panel.value = 1;
                 }
             });
 
-            Labs.on("mousedown", this.container, function(){
+            container.on("mousedown", function(){
                 draw = true;
             });
 
-            Labs.on("mouseup", this.container, function(){
+            container.on("mouseup", function(){
                 draw = false;
             });
         },
@@ -87,10 +99,13 @@ var NN_UI = (function(){
                 pad = this.pads[i];
                 for(var j = 0; j < this.pads.length; j++){
                     canvas = pad[j].canvas;
-                    canvas.style.left = left + "px";
-                    canvas.style.top = top + "px";
+                    canvas.css({
+                        "left": left + "px",
+                        "top": top + "px"
+                    });
+
                     left += this.panelSize;
-                    this.container.appendChild(canvas);
+                    this.container.append(canvas);
                 }
                 left = 0;
                 top += this.panelSize;
@@ -104,7 +119,7 @@ var NN_UI = (function(){
                 pad = pads[i];
                 for(var j = 0; j < pads.length; j++){
                     pad[j].value = 0;
-                    pad[j].canvas.style.background = "white";
+                    pad[j].canvas.css("background", "white");
                 }
             }                
         },
@@ -124,13 +139,17 @@ var NN_UI = (function(){
     };
 
     function InputPad(config){
-        this.canvas = Labs.createElement("canvas", config.id, "inputpanel");
-        this.canvas.setAttribute("width", config.width);
-        this.canvas.setAttribute("height", config.height);
+        var canvas = document.createElement("canvas");
+        canvas.setAttribute("width", config.width);
+        canvas.setAttribute("height", config.height);
+        this.context = canvas.getContext("2d");
+        canvas = jQuery(canvas);
+        canvas.addClass("inputpanel");
+        canvas.attr("id", config.id);
         this.width = config.width;
         this.height = config.height;
-        this.container = config.container;
-        this.context = this.canvas.getContext("2d");
+        this.container = jQuery("#" + config.container);
+        this.canvas = canvas;
         this.penSize = config.penSize || 20;
         this.panelPadContainer = config.panelPadContainer || null;
         return this;
@@ -139,31 +158,40 @@ var NN_UI = (function(){
     InputPad.prototype = {
 
         attachEventHandlers: function(){
-            var self = this, x, y, _x, _y, con = this.context, draw = false, ev, panels, id, i = 0;
-            con.lineWidth = this.penSize;
+            var self = this, 
+                x, _x,
+                y, _y,
+                con = this.context, 
+                draw = false, 
+                ev, 
+                panels, 
+                id, 
+                i = 0;
 
-            Labs.on("mousedown", this.canvas, function(e){
+            con.lineWidth = this.penSize;
+            var canvas = this.canvas;
+
+            canvas.on("mousedown", function(e){
                 draw = true;
                 x = e.offsetX;
                 y = e.offsetY;
             });
 
-            Labs.on("mousemove", this.canvas, function(e){
+            canvas.on("mousemove", function(e){
                 if(draw) {
                     con.beginPath();
-                    con.arc(x, y, 3, 0, Math.PI * 2, false); //??
+                    con.arc(x, y, 10, 0, Math.PI * 2, false); //??
                     con.closePath();
-                    con.stroke();
+                    con.fill();
                     x = e.offsetX;
                     y = e.offsetY;
-                    _x = Math.floor(x / self.penSize);
-                    _y = Math.floor(y / self.penSize);
-
                     if(self.panelPadContainer){
+                        _x = Math.floor(x / self.penSize);
+                        _y = Math.floor(y / self.penSize);
                         ev = document.createEvent("MouseEvents");
                         ev.initMouseEvent("mousemove", true, true, window, e.details, e.screenX, e.screenY, e.clientX, e.clientY, true, true, true, true, e.button, null);
                         panels = document.getElementsByClassName("panels");
-                        for(i = 0; i < panels.length; i++){
+                        for(i = 0, len = panels.length; i < len; i++){
                             id = panels[i].getAttribute("id");
                             if(id == "panel" + _x + _y){
                                 panels[i].dispatchEvent(ev);
@@ -175,23 +203,23 @@ var NN_UI = (function(){
                 }
             });
 
-            Labs.on("mouseup", this.canvas, function(e){
+            canvas.on("mouseup", function(){
                 if(draw) draw = false;
             });
 
-            Labs.on("mouseout", this.canvas, function(){
+            canvas.on("mouseout", function(){
                 NN_UI.panelTransfer = false;
             });
         },
 
         render: function(){
-            this.container.appendChild(this.canvas);
+            this.container.append(this.canvas);
             this.attachEventHandlers();
             return this;
         },
 
         processInput: function(){
-            this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+            this.imageData = this.context.getImageData(0, 0, this.width, this.height);
             var data = this.imageData.data;
             var processedData = [];
             for(var i = 0; i < data.length; i++){
@@ -203,7 +231,7 @@ var NN_UI = (function(){
         },
 
         clearPanel: function(){
-            this.context.clearRect(0, 0, this.width, this.width);
+            this.context.clearRect(0, 0, this.width, this.height);
         }
     };
 

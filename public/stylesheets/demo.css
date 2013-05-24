@@ -7,6 +7,10 @@
 	margin-left: 5px;
 }
 
+.nn-nav li {
+	cursor: pointer;	
+}
+
 .nn .container {
 	width: 1200px;
 }
@@ -47,6 +51,10 @@
 
 canvas {
 	border-radius: 5px;
+   -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
 }
 
 .log-container {
@@ -77,4 +85,8 @@ canvas {
 	height: 200px;
 	border-radius: 5px;
 	margin-bottom: 60px;
+}
+
+#status p {
+	text-align: center;
 }

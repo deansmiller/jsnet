@@ -13,9 +13,12 @@ block content
         .row
 
             .span3
-                h5 Config
-                hr
                 .config-container
+                    .alert.alert-success#status.hide
+                        p
+                            strong Network Trained
+                    h5 Config
+                    hr
                     p Error:
                         input(type="text", id="error")
                     br
@@ -30,7 +33,6 @@ block content
                         input(type="text", id="chartError")
                        
 
-
             .span7
                 .controls
                     button.btn.btn-success#recog Recog
@@ -42,6 +44,7 @@ block content
                 .pad-container
                     #panelpad-container
                     #inputpad-container
+
                 
                 h5 Chart (displayed on completion of training)
                 #chart-container
@@ -58,9 +61,23 @@ block content
         .modal-header
             h3 How to use this thing...
         .modal-body
-            <p>Press train button to train the network. You should see the error being logged and decreasing in the Log textarea. When training has finished a chart should be displayed in the chart area.</p>
+
+            p Press the train button to train the network. You should see the error being logged and decreasing in the Log text area. 
+
+            p Then, use the mouse to draw a number (1, 2 or 3) in the green box and press the green button labelled "Recog"
+
+            hr
+            .img-container
+                img(src="/images/nndemo.png")
+            hr
+
+            p If it doesn't get it right the first time try clearing the panels and drawing it again.
+
+            p Sometimes training takes forever, if it takes more than approx 40 seconds I would stop the training, reset the network and start again or just refresh the page and start over.
+
+
         .modal-footer
-            button.btn.btn-danger(data-dismiss="helpModal") Close
+            button.btn.btn-primary(data-dismiss="modal") Got it!
 
 
 

@@ -42,25 +42,24 @@ Labs.ready(function(){
         9: {
             input:[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,1,1,0,0,0,1,1,1,1,1,1,0],
             output: [0,0,1,0]
-        },
-
+        }
     };
 
     var pp = new NN_UI.PanelPad({
         panelSize: 20, // each panel size in pixels 
         panels: 10, // panel per row
-        container: Labs.get("panelpad-container"),
+        container: "panelpad-container",
         panelColour: "rgb(177, 173, 173)" //should really be set using CSS!!
     }).render();
 
 
     var ip = new NN_UI.InputPad({
-        width: "200",
-        height: "200",
+        width: 200,
+        height: 200,
         id: "demo",
         penSize: 20, //must match PanelPad panelSize
-        container: Labs.get("inputpad-container"),
-        panelPadContainer: Labs.get("panelpad-container")
+        container: "inputpad-container",
+        panelPadContainer: "panelpad-container"
     }).render();
 
 
@@ -70,9 +69,7 @@ Labs.ready(function(){
         var data = e.data;
         //console.log("Worker: ", data);
         if(data.cmd == "chart" && data.x.length > 0){
-
-            var paper = new Raphael(Labs.get("chart-container"));
-
+            var paper = new Raphael(document.getElementById("chart-container"));
             paper.linechart(0, 0, 500, 300, data.x, data.y, {
                 axis: "0 0 1 1",
                 smooth: true,
@@ -101,6 +98,10 @@ Labs.ready(function(){
                 }
             }
             Labs.get("guess").innerText = result;
+        }
+
+        if(data.cmd == "training-completed"){
+            jQuery("#status").show();
         }
 
     }, false);
@@ -133,6 +134,7 @@ Labs.ready(function(){
 
     Labs.on("click", "stop", function(){
         worker.terminate();
+        jQuery("#status").show();
     });
 
 
@@ -146,6 +148,7 @@ Labs.ready(function(){
         Labs.get("log").value = "";
         Labs.get("guess").innerText = "";
         Labs.get("chart-container").innerHTML = "";
+        jQuery("#status").hide();
     });
 
 

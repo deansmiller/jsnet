@@ -75,6 +75,7 @@ var NN_WORK = (function(){
             } while (currentError > this.error);
 
             self.postMessage("Training completed with error at: " + " " + currentError + " after iterations: " + i);
+            self.postMessage({ cmd: "training-completed" });
             self.postMessage({ cmd: "chart", x: iterations, y: errors });
         },
 
