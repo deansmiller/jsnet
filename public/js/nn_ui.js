@@ -158,14 +158,14 @@ var NN_UI = (function($){
     InputPad.prototype = {
 
         attachEventHandlers: function(){
-            var self = this, 
+            var self = this,
                 x, _x,
                 y, _y,
-                con = this.context, 
-                draw = false, 
-                ev, 
-                panels, 
-                id, 
+                con = this.context,
+                draw = false,
+                ev,
+                panels,
+                id,
                 i = 0;
 
             con.lineWidth = this.penSize;
@@ -191,7 +191,7 @@ var NN_UI = (function($){
                         ev = document.createEvent("MouseEvents");
                         ev.initMouseEvent("mousemove", true, true, window, e.details, e.screenX, e.screenY, e.clientX, e.clientY, true, true, true, true, e.button, null);
                         panels = document.getElementsByClassName("panels");
-                        for(i = 0, len = panels.length; i < len; i++){
+                        for(var i = 0, len = panels.length; i < len; i++){
                             id = panels[i].getAttribute("id");
                             if(id == "panel" + _x + _y){
                                 panels[i].dispatchEvent(ev);

@@ -83,20 +83,7 @@ jQuery(document).ready(function(){
         }
 
         if(data.cmd == "output"){
-            var output = data.output;
-            console.log(output);
-            var temp = output[0], max = 0;
-            for(var i = 0; i < output.length; i++){
-                temp = Math.max(output[i], output[i+1]);
-                if(temp > max) max = temp;
-            }
-            var result;
-            for(var i = 0; i < output.length; i++){
-                if(output[i] == max){
-                    result = i + 1;
-                    break;                
-                }
-            }
+            var result = _.indexOf(data.output, _.max(data.output)) + 1;
             jQuery("#guess").text(result);
         }
 
